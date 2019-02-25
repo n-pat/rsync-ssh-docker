@@ -1,5 +1,4 @@
-FROM alpine:3.7
-MAINTAINER ome-devel@lists.openmicroscopy.org.uk
+FROM alpine:latest
 
 RUN apk add -U \
     openssh-server \
