@@ -2,14 +2,28 @@
 set -eu
 
 GROUPID="${GROUPID:-1000}"
-addgroup -g $GROUPID rsync
-for USER in $GITHUB_USERS; do
-    adduser -G rsync -s /bin/sh -D $USER
-    echo $USER:$(head -c30 /dev/urandom | base64) | chpasswd
-    mkdir /home/$USER/.ssh
-    wget -q -O /home/$USER/.ssh/authorized_keys https://github.com/$USER.keys
-    chown -R $USER:rsync /home/$USER/.ssh
-    chmod -R go-wx /home/$USER/.ssh
-done
+addgroup -g "$GROUPID" rsync
+
+if [ -n "$USERNAME" ]; then
+    adduser -G rsync -s /bin/sh -D "$USERNAME"
+    echo "$USERNAME":$(head -c30 /dev/urandom | base64) | chpasswd
+    mkdir /home/"$USERNAME"/.ssh
+    for GITHUB_USER in $GITHUB_USERS; do
+        wget -q -O /home/"$USERNAME"/.ssh/authorized_keys https://github.com/"$GITHUB_USER".keys
+    done
+    echo "$SSH_KEY" >> /home/"$USERNAME"/.ssh/authorized_keys
+    chown -R "$USERNAME":rsync /home/"$USERNAME"/.ssh
+    chmod -R go-wx /home/"$USERNAME"/.ssh
+else
+    for GITHUB_USER in $GITHUB_USERS; do
+        USERNAME="$GITHUB_USER"
+        adduser -G rsync -s /bin/sh -D "$USERNAME"
+        echo "$USERNAME":$(head -c30 /dev/urandom | base64) | chpasswd
+        mkdir /home/"$USERNAME"/.ssh
+        wget -q -O /home/"$USERNAME"/.ssh/authorized_keys https://github.com/"$GITHUB_USER".keys
+        chown -R "$USERNAME":rsync /home/"$USERNAME"/.ssh
+        chmod -R go-wx /home/"$USERNAME"/.ssh
+    done
+fi
 
 exec /usr/sbin/sshd -eD
