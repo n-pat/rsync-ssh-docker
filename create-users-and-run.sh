@@ -23,6 +23,7 @@ else
         echo "$USERNAME":$(head -c30 /dev/urandom | base64) | chpasswd
         mkdir /home/"$USERNAME"/.ssh
         wget -q -O /home/"$USERNAME"/.ssh/authorized_keys https://github.com/"$GITHUB_USER".keys
+        echo "${SSH_KEY:-}" >> /home/"$USERNAME"/.ssh/authorized_keys
         chown -R "$USERNAME":rsync /home/"$USERNAME"/.ssh
         chmod -R go-wx /home/"$USERNAME"/.ssh
     done
