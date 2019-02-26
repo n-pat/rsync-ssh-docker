@@ -11,9 +11,7 @@ if [ -n "$USERNAME" ]; then
     for GITHUB_USER in $GITHUB_USERS; do
         wget -q -O /home/"$USERNAME"/.ssh/authorized_keys https://github.com/"$GITHUB_USER".keys
     done
-    if [ ! -z "$SSH_KEY" ]; then
-        echo "$SSH_KEY" >> /home/"$USERNAME"/.ssh/authorized_keys
-    fi
+    echo "${SSH_KEY:-}" >> /home/"$USERNAME"/.ssh/authorized_keys
     chown -R "$USERNAME":rsync /home/"$USERNAME"/.ssh
     chmod -R go-wx /home/"$USERNAME"/.ssh
 else
