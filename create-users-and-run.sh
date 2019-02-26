@@ -3,17 +3,17 @@ set -eu
 
 GROUPID="${GROUPID:-1000}"
 USERID="${USERID:-1000}"
-USER="${$USERNAME:-$GITHUB_USER}"
+USER="${USERNAME:-$GITHUB_USER}"
 addgroup -g "$GROUPID" sshuser
 
-adduser -G sshuser --uid "$USERID" -s /bin/sh -D "$USERNAME"
-echo "$USERNAME":$(head -c30 /dev/urandom | base64) | chpasswd
-mkdir /home/"$USERNAME"/.ssh
+adduser -G sshuser --uid "$USERID" -s /bin/sh -D "$USER"
+echo "$USER":$(head -c30 /dev/urandom | base64) | chpasswd
+mkdir /home/"$USER"/.ssh
 if [ ! -z "${GITHUB_USER:-}" ]; then
-    wget -q -O /home/"$USERNAME"/.ssh/authorized_keys https://github.com/"$GITHUB_USER".keys
+    wget -q -O /home/"$USER"/.ssh/authorized_keys https://github.com/"$GITHUB_USER".keys
 fi
-echo "${SSH_KEY:-}" >> /home/"$USERNAME"/.ssh/authorized_keys
-chown -R "$USERNAME":rsync /home/"$USERNAME"/.ssh
-chmod -R go-wx /home/"$USERNAME"/.ssh
+echo "${SSH_KEY:-}" >> /home/"$USER"/.ssh/authorized_keys
+chown -R "$USER":rsync /home/"$USER"/.ssh
+chmod -R go-wx /home/"$USER"/.ssh
 
 exec /usr/sbin/sshd -eD
