@@ -1,5 +1,6 @@
 # This is a modified version of /etc/ssh/sshd_config from
-# alpine:3.7 openssh-server (7.5_p1-r1)
+# OpenSSH_7.9p1, OpenSSL 1.1.1a  20 Nov 2018
+# alpine: 3.9, 31 Jan 2019
 
 #	$OpenBSD: sshd_config,v 1.101 2017/03/14 07:19:07 djm Exp $
 
@@ -19,7 +20,6 @@
 #ListenAddress ::
 
 HostKey /etc/ssh/ssh_host_rsa_key
-#HostKey /etc/ssh/ssh_host_dsa_key
 HostKey /etc/ssh/ssh_host_ecdsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
 
@@ -86,16 +86,16 @@ PasswordAuthentication no
 #UsePAM no
 
 #AllowAgentForwarding yes
-#AllowTcpForwarding yes
-#GatewayPorts no
-#X11Forwarding no
+# Feel free to re-enable these if your use case requires them.
+AllowTcpForwarding no
+GatewayPorts no
+X11Forwarding no
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PermitTTY yes
 #PrintMotd yes
 #PrintLastLog yes
 #TCPKeepAlive yes
-#UseLogin no
 #PermitUserEnvironment no
 #Compression delayed
 #ClientAliveInterval 0
@@ -112,17 +112,6 @@ PasswordAuthentication no
 
 # override default of no subsystems
 Subsystem	sftp	/usr/lib/ssh/sftp-server
-
-# the following are HPN related configuration options
-# tcp receive buffer polling. disable in non autotuning kernels
-#TcpRcvBufPoll yes
-
-# disable hpn performance boosts
-#HPNDisabled no
-
-# buffer size for hpn to non-hpn connections
-#HPNBufferSize 2048
-
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
