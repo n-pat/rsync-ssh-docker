@@ -8,7 +8,7 @@ GROUP="sshuser"
 addgroup -g "$GROUPID" "$GROUP"
 
 adduser -G sshuser --uid "$USERID" -s /bin/sh -D "$USER"
-echo "$USER":$(head -c30 /dev/urandom | base64) | chpasswd
+echo "$USER":"$(head -c30 /dev/urandom | base64)" | chpasswd
 mkdir /home/"$USER"/.ssh
 if [ ! -z "${GITHUB_USER:-}" ]; then
     wget -q -O /home/"$USER"/.ssh/authorized_keys https://github.com/"$GITHUB_USER".keys
