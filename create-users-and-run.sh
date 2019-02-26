@@ -4,7 +4,7 @@ set -eu
 GROUPID="${GROUPID:-1000}"
 addgroup -g "$GROUPID" rsync
 
-if [ -n "$USERNAME" ]; then
+if [ ! -z "${USERNAME:-}" ]; then
     adduser -G rsync -s /bin/sh -D "$USERNAME"
     echo "$USERNAME":$(head -c30 /dev/urandom | base64) | chpasswd
     mkdir /home/"$USERNAME"/.ssh
