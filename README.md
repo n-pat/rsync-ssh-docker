@@ -23,14 +23,18 @@ Authentication is configured using github public keys- the container creates use
 
 ### Container creation
 With the following a container is created where the user `freiheitsnetz` is created and its respective ssh public keys from GitHub are added.
+
     docker run -d --name rsync-ssh-access -v shared-volume:/volume -e GITHUB_USERS="freiheitsnetz" -p 10022:22 rsync-ssh
 
 With the following a container is created where the user `myuser` is created and this user can login using the keys from the GitHub user `freiheitsnetz` or the one in the `SSH_KEY` variable.
+
     docker run -d --name rsync-ssh-access -v shared-volume:/volume -e GITHUB_USERS="freiheitsnetz" -e USERNAME="myuser" -e SSH_KEYS="ssh-ed25519 AAAAC3....a4" -p 10022:22 rsync-ssh
 
 With the following a container is created where the user `myuser` is created and this user can login using the key in the `SSH_KEY` variable.
+
     docker run -d --name rsync-ssh-access -v shared-volume:/volume -e USERNAME="myuser" -e SSH_KEYS="ssh-ed25519 AAAAC3....a4" -p 10022:22 rsync-ssh
 
 ### Usage
+
     rsync -v -e 'ssh -p 10022' freiheitsnetz@localhost:/volume
     ssh -p 10022 freiheitsnetz@localhost
