@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 
+# Initialize separate volume /etc/ssh: Create sshd host keys
+[ -f /etc/ssh/ssh_host_rsa_key ] || /usr/bin/ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -C '' -N ''
+[ -f /etc/ssh/ssh_host_ecdsa_key ] || /usr/bin/ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -C '' -N ''
+[ -f /etc/ssh/ssh_host_ed25519_key ] || /usr/bin/ssh-keygen -q -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -C '' -N ''
+
 GROUPID="${GROUPID:-1000}"
 USERID="${USERID:-1000}"
 USER="${USERNAME:-$GITHUB_USER}"
