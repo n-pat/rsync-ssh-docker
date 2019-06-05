@@ -8,6 +8,7 @@ Authentication is configured using github public keys- the container creates use
 - `GROUPID`: The numeric ID of the group all users will be added to, default `1000`.
 - `USERID`: The numeric ID of the user which will be created, default `1000`.
 - `USERNAME`: Username to be used.
+- `GROUPNAME`: Groupname to be used, default `sshuser`.
 - `GITHUB_USER`:  GitHub user from which the ssh public keys are taken and for which the username is created if no `USERNAME` is given.
 - `SSH_KEY`: ssh key used for authentication if no `GITHUB_USER` is given or additionally to the GitHub user keys.
 

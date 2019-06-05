@@ -4,10 +4,10 @@ set -eu
 GROUPID="${GROUPID:-1000}"
 USERID="${USERID:-1000}"
 USER="${USERNAME:-$GITHUB_USER}"
-GROUP="sshuser"
+GROUP="${GROUPNAME:-sshuser}"
 addgroup -g "$GROUPID" "$GROUP"
 
-adduser -G sshuser --uid "$USERID" -s /bin/sh -D "$USER"
+adduser -G "$GROUP" --uid "$USERID" -s /bin/sh -D "$USER"
 echo "$USER":"$(head -c30 /dev/urandom | base64)" | chpasswd
 mkdir /home/"$USER"/.ssh
 if [ ! -z "${GITHUB_USER:-}" ]; then
