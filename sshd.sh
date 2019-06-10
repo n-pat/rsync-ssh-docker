@@ -1,4 +1,5 @@
 #!/bin/sh
+
 set -eu
 
 # Initialize separate volume /etc/ssh: Create sshd host keys
