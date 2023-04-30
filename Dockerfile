@@ -2,6 +2,7 @@ FROM alpine:latest
 
 RUN apk add -U \
     openssh-server \
+	openssh-sftp-server \
     rsync && \
     rm -f /var/cache/apk/*
 
